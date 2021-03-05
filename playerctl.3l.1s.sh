@@ -14,16 +14,13 @@ ICON="org.gnome.Music"
 
 # ---
 
-CURPLAYER=`playerctl metadata`
-CURPLAYER=${CURPLAYER%% *}
-
-if [[ "$USEANYPLAYER" == true || "$PLAYER" == "$CURPLAYER" ]]; then
+if [[ "$USEANYPLAYER" == true ]]; then
   META=`playerctl metadata --format '{{ title }} by {{ artist }}'`
-  if [[ "${META}" != "" ]]; then
-    echo "$META | iconName=${ICON}"
-  else
-    echo " "
-  fi
 else
-   echo " "
+  META=`playerctl metadata -p ${PLAYER} --format '{{ title }} by {{ artist }}'`
+fi
+if [[ "${META}" != "" ]]; then
+  echo "$META | iconName=${ICON}"
+else
+  echo " "
 fi
